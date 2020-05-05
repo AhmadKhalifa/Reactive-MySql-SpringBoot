@@ -11,6 +11,7 @@ import com.poc.reactivemysql.exceptions.notfound.CustomerNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.switchIfEmpty
 import javax.transaction.Transactional
 
 @Service
@@ -41,8 +42,7 @@ class CustomerServiceImpl : CustomerService {
     @Transactional
     override fun deleteCustomer(id: Int) = customerRepository.findById(id)
             .switchIfEmpty(Mono.error(CustomerNotFoundException()))
-            .then(customerRepository.delete(id))
-            .then()
+            .flatMap { customerRepository.delete(id) }
 
     @Transactional
     override fun updateCustomer(customer: Customer) = customer.id?.let {
