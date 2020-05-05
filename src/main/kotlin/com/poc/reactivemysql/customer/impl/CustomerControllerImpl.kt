@@ -4,6 +4,8 @@ import com.poc.reactivemysql.customer.dto.Customer
 import com.poc.reactivemysql.customer.CustomerController
 import com.poc.reactivemysql.customer.CustomerService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,21 +17,21 @@ class CustomerControllerImpl : CustomerController {
 
     @GetMapping
     override fun getAllCustomers() =
-            customerService.getAllCustomers()
+            ResponseEntity(customerService.getAllCustomers(), HttpStatus.OK)
 
     @GetMapping("/{id}")
     override fun getCustomer(@PathVariable id: Int) =
-            customerService.getCustomer(id)
+            ResponseEntity(customerService.getCustomer(id), HttpStatus.OK)
 
     @PostMapping
     override fun createCustomer(@RequestBody customer: Customer) =
-            customerService.createCustomer(customer)
+            ResponseEntity(customerService.createCustomer(customer), HttpStatus.CREATED)
 
     @DeleteMapping("/{id}")
     override fun deleteCustomer(@PathVariable id: Int) =
-            customerService.deleteCustomer(id)
+            ResponseEntity(customerService.deleteCustomer(id), HttpStatus.NO_CONTENT)
 
     @PutMapping
-    override fun updateCustomer(customer: Customer) =
-            customerService.updateCustomer(customer)
+    override fun updateCustomer(@RequestBody customer: Customer) =
+            ResponseEntity(customerService.updateCustomer(customer), HttpStatus.NO_CONTENT)
 }

@@ -1,8 +1,8 @@
 package com.poc.reactivemysql.customer.dto
 
+import org.springframework.data.annotation.Id
 import javax.persistence.*
 
-@Entity(name = "customer")
 data class Customer(
         @Column(name = "first_name") var firstName: String = "",
         @Column(name = "last_name") var lastName: String = "",
